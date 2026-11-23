@@ -1,6 +1,38 @@
-wav/*
-hasil/*
-test/*
+# Keep the folder layout in Git, but never track local media or generated output.
+/wav/*
+!/wav/full/
+!/wav/part/
+/wav/full/*
+!/wav/full/.gitkeep
+/wav/part/*
+!/wav/part/.gitkeep
+
+/hasil/*
+!/hasil/txt/
+!/hasil/srt/
+!/hasil/web/
+!/hasil/uploads/
+/hasil/txt/*
+!/hasil/txt/full/
+!/hasil/txt/part/
+/hasil/txt/full/*
+!/hasil/txt/full/.gitkeep
+/hasil/txt/part/*
+!/hasil/txt/part/.gitkeep
+/hasil/srt/*
+!/hasil/srt/full/
+!/hasil/srt/part/
+/hasil/srt/full/*
+!/hasil/srt/full/.gitkeep
+/hasil/srt/part/*
+!/hasil/srt/part/.gitkeep
+/hasil/web/*
+!/hasil/web/.gitkeep
+/hasil/uploads/*
+!/hasil/uploads/.gitkeep
+
+/test/*
+!/test/.gitkeep
 
 # Python virtual environments and bytecode
 faster-whisper-env/

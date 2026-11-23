@@ -135,7 +135,7 @@ Pada penggunaan pertama, faster-whisper mengunduh model yang dipilih. Ukuran und
 - Tombol **Simpan semua TXT** dan **Simpan semua SRT** menyalin format yang dipilih ke folder tujuan yang diberi izin oleh browser.
 - Tautan TXT dan SRT pada setiap accordion dapat digunakan untuk mengunduh file secara terpisah.
 
-> Jangan commit audio atau hasil transkripsi yang bersifat pribadi. Folder `wav/`, `hasil/`, dan `test/` dikecualikan oleh `.gitignore` project.
+> Jangan commit audio atau hasil transkripsi yang bersifat pribadi. File media dan hasil lokal di `wav/`, `hasil/`, dan `test/` diabaikan oleh Git; file `.gitkeep` menjaga struktur folder tetap terlihat di repository.
 
 ## GPU dan CPU
 
@@ -172,9 +172,9 @@ faster-whisper/
 ├── transcribe.v2.py    # Skrip CLI batch lama
 ├── requirements.txt    # Dependency Python utama
 ├── LICENSE             # Lisensi MIT
-├── wav/                # Audio input lokal (diabaikan Git)
-├── hasil/              # Hasil dan file sementara (diabaikan Git)
-└── test/               # File uji lokal (diabaikan Git)
+├── wav/                # Placeholder dilacak; file audio lokal diabaikan Git
+├── hasil/              # Placeholder dilacak; hasil dan audio sementara diabaikan Git
+└── test/               # Placeholder dilacak; file uji diabaikan Git
 ```
 
 ## Pemecahan Masalah
