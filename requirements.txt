@@ -1,0 +1,2 @@
+# Core transcription engine. Python standard library powers the local web server.
+faster-whisper==1.2.1

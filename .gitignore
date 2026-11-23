@@ -1,3 +1,15 @@
 wav/*
 hasil/*
 test/*
+
+# Python virtual environments and bytecode
+faster-whisper-env/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Local model caches and editor files
+.cache/
+.vscode/
+.DS_Store
