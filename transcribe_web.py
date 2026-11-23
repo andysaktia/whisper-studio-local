@@ -62,24 +62,11 @@ def format_time(seconds: float) -> str:
     return f"{seconds // 3600:02d}:{(seconds % 3600) // 60:02d}:{seconds % 60:02d},{ms:03d}"
 
 
-def detect_audio_codec(audio_path: Path) -> str:
-    """Probe the file contents with PyAV instead of trusting its extension."""
-    import av
-
-    with av.open(str(audio_path), mode="r") as container:
-        audio_streams = container.streams.audio
-        if not audio_streams:
-            raise ValueError("Tidak ditemukan track audio pada file ini.")
-        return audio_streams[0].codec_context.name or "audio"
-
-
 def run_transcription(job_id: str, audio: Path, options: dict) -> None:
     job = JOBS[job_id]
     model = None
     started = time.time()
     try:
-        codec = detect_audio_codec(audio)
-        job["audio_codec"] = codec
         requested_device = options["device"]
         device = requested_device
         compute = options["compute_type"]
@@ -96,10 +83,12 @@ def run_transcription(job_id: str, audio: Path, options: dict) -> None:
                     MODEL_CACHE["key"] = cache_key
                 model = MODEL_CACHE["model"]
                 try:
+                    job["message"] = "Membaca audio dan menyiapkan transkripsi…"
                     segments, info = model.transcribe(
                         str(audio), language=options["language"] or None,
                         beam_size=options["beam_size"], vad_filter=options["vad_filter"],
                     )
+                    job["message"] = "Audio siap; mengenali ucapan…"
                     job["duration"] = info.duration
                     job["language_detected"] = info.language
                     job["progress"] = 1
@@ -125,8 +114,10 @@ def run_transcription(job_id: str, audio: Path, options: dict) -> None:
                     del model
                     model = WhisperModel(options["model"], device="cpu", compute_type="int8")
                     MODEL_CACHE.update(key=(options["model"], "cpu", "int8"), model=model)
+                    job["message"] = "Membaca audio ulang dengan CPU…"
                     segments, info = model.transcribe(str(audio), language=options["language"] or None,
                                                       beam_size=options["beam_size"], vad_filter=options["vad_filter"])
+                    job["message"] = "Audio siap; mengenali ucapan di CPU…"
                     rows, txt_lines, srt_lines = [], [], []
                     job["duration"] = info.duration
                     job["language_detected"] = info.language

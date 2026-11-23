@@ -31,7 +31,7 @@ Aplikasi transkripsi audio lokal berbasis [faster-whisper](https://github.com/SY
 
 - Antarmuka web lokal yang responsif, tanpa framework frontend tambahan.
 - Unggah satu atau beberapa file audio, seret file ke halaman, atau pilih folder audio.
-- Format yang diterima: WAV (default), MP3, M4A, AAC, FLAC, OGG, dan OPUS. Backend memeriksa isi file dengan PyAV; ekstensi saja tidak menjamin codec di dalamnya dapat dibaca.
+- Format yang diterima: WAV (default), MP3, M4A, AAC, FLAC, OGG, dan OPUS. Faster-whisper memakai PyAV untuk membuka isi audio; ekstensi yang diterima tidak menjamin setiap codec di dalamnya dapat dibaca.
 - Proses batch berurutan dengan status dan progress bar untuk setiap file.
 - Pengaturan model, bahasa, perangkat, beam size, dan filter VAD.
 - Fallback ke CPU jika proses di GPU mengalami `RuntimeError`.
