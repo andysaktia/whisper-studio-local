@@ -30,7 +30,8 @@ Aplikasi transkripsi audio lokal berbasis [faster-whisper](https://github.com/SY
 ## Fitur
 
 - Antarmuka web lokal yang responsif, tanpa framework frontend tambahan.
-- Unggah satu atau beberapa file WAV, seret file ke halaman, atau pilih folder WAV.
+- Unggah satu atau beberapa file audio, seret file ke halaman, atau pilih folder audio.
+- Format yang diterima: WAV (default), MP3, M4A, AAC, FLAC, OGG, dan OPUS. Backend memeriksa isi file dengan PyAV; ekstensi saja tidak menjamin codec di dalamnya dapat dibaca.
 - Proses batch berurutan dengan status dan progress bar untuk setiap file.
 - Pengaturan model, bahasa, perangkat, beam size, dan filter VAD.
 - Fallback ke CPU jika proses di GPU mengalami `RuntimeError`.
@@ -45,7 +46,7 @@ Aplikasi transkripsi audio lokal berbasis [faster-whisper](https://github.com/SY
 - Python 3.9 atau lebih baru.
 - Koneksi internet saat pertama kali mengunduh model.
 - Browser modern. Chrome atau Edge disarankan untuk memilih folder output dan menulis hasil langsung ke folder tersebut.
-- File audio berformat WAV. Ukuran total satu batch dibatasi 2 GB.
+- File audio berformat WAV, MP3, M4A, AAC, FLAC, OGG, atau OPUS. Ukuran total satu batch dibatasi 2 GB.
 
 PyAV yang digunakan faster-whisper menyertakan library untuk membaca audio, sehingga instalasi FFmpeg sistem biasanya tidak diperlukan. Lihat [persyaratan faster-whisper](https://github.com/SYSTRAN/faster-whisper#requirements) untuk detail versi dan platform.
 
@@ -117,7 +118,7 @@ python transcribe_web.py
 ## Cara Menggunakan
 
 1. Buka alamat lokal yang ditampilkan server.
-2. Pilih beberapa file WAV, seret file ke kotak unggah, atau tekan **Pilih folder WAV**.
+2. Pilih beberapa file audio yang didukung, seret file ke kotak unggah, atau tekan **Pilih folder audio**.
 3. Atur model, bahasa, perangkat, beam size, dan opsi **Kurangi jeda hening** sesuai kebutuhan.
 4. Tekan **Mulai transkripsi**. File diproses satu per satu; progress dan status tersedia pada baris tiap file.
 5. Buka accordion untuk membaca transkrip dan mengunduh TXT atau SRT per file.

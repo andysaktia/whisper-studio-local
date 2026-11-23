@@ -23,6 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent
 UPLOAD_DIR = BASE_DIR / "hasil" / "uploads"
 OUTPUT_DIR = BASE_DIR / "hasil" / "web"
 MAX_UPLOAD = 2 * 1024 * 1024 * 1024
+MAX_REQUEST = MAX_UPLOAD + 16 * 1024 * 1024  # multipart headers and boundaries
+AUDIO_EXTENSIONS = {".wav", ".mp3", ".m4a", ".aac", ".flac", ".ogg", ".opus"}
 JOBS: dict[str, dict] = {}
 JOBS_LOCK = threading.Lock()
 MODEL_LOCK = threading.Lock()
@@ -60,11 +62,24 @@ def format_time(seconds: float) -> str:
     return f"{seconds // 3600:02d}:{(seconds % 3600) // 60:02d}:{seconds % 60:02d},{ms:03d}"
 
 
+def detect_audio_codec(audio_path: Path) -> str:
+    """Probe the file contents with PyAV instead of trusting its extension."""
+    import av
+
+    with av.open(str(audio_path), mode="r") as container:
+        audio_streams = container.streams.audio
+        if not audio_streams:
+            raise ValueError("Tidak ditemukan track audio pada file ini.")
+        return audio_streams[0].codec_context.name or "audio"
+
+
 def run_transcription(job_id: str, audio: Path, options: dict) -> None:
     job = JOBS[job_id]
     model = None
     started = time.time()
     try:
+        codec = detect_audio_codec(audio)
+        job["audio_codec"] = codec
         requested_device = options["device"]
         device = requested_device
         compute = options["compute_type"]
@@ -194,7 +209,7 @@ class Handler(BaseHTTPRequestHandler):
             return
         try:
             length = int(self.headers.get("Content-Length", "0"))
-            if not 0 < length <= MAX_UPLOAD:
+            if not 0 < length <= MAX_REQUEST:
                 self.send_json({"error": "Ukuran file kosong atau melewati batas 2 GB"}, 413)
                 return
             raw = self.rfile.read(length)
@@ -210,9 +225,14 @@ class Handler(BaseHTTPRequestHandler):
                     uploads.append((filename, part.get_payload(decode=True)))
                 elif name:
                     fields[name] = (part.get_payload(decode=True) or b"").decode("utf-8", "replace")
-            uploads = [(name, data) for name, data in uploads if name.lower().endswith(".wav") and data]
+            uploads = [(name, data) for name, data in uploads
+                       if Path(name).suffix.lower() in AUDIO_EXTENSIONS and data]
             if not uploads:
-                self.send_json({"error": "Pilih minimal satu file WAV yang valid"}, 400)
+                formats = ", ".join(ext[1:].upper() for ext in sorted(AUDIO_EXTENSIONS))
+                self.send_json({"error": f"Pilih file audio yang didukung: {formats}"}, 400)
+                return
+            if sum(len(data) for _, data in uploads) > MAX_UPLOAD:
+                self.send_json({"error": "Total ukuran file audio maksimal 2 GB per batch"}, 413)
                 return
             options = {
                 "model": fields.get("model", "large-v3-turbo"),
