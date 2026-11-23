@@ -2,8 +2,17 @@
 
 Aplikasi transkripsi audio lokal berbasis [faster-whisper](https://github.com/SYSTRAN/faster-whisper). Pilih atau seret file WAV, jalankan transkripsi, lihat hasil per file, lalu simpan subtitle dan teks ke folder pilihan.
 
+## Demo
+
+<p align="center">
+  <img src="demo.gif" alt="Demo Whisper Studio: memilih WAV, melihat proses transkripsi, dan menyimpan TXT atau SRT" width="960">
+</p>
+
+*Demo alur transkripsi WAV hingga hasil TXT dan SRT.*
+
 ## Daftar Isi
 
+- [Demo](#demo)
 - [Fitur](#fitur)
 - [Persyaratan](#persyaratan)
 - [Instalasi](#instalasi)
