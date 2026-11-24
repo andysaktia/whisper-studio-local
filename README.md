@@ -2,6 +2,8 @@
 
 Aplikasi transkripsi audio lokal berbasis [faster-whisper](https://github.com/SYSTRAN/faster-whisper). Pilih atau seret file WAV, jalankan transkripsi, lihat hasil per file, lalu simpan subtitle dan teks ke folder pilihan.
 
+Repository: [andysaktia/whisper-studio-local](https://github.com/andysaktia/whisper-studio-local)
+
 ## Demo
 
 <p align="center">
@@ -55,8 +57,8 @@ PyAV yang digunakan faster-whisper menyertakan library untuk membaca audio, sehi
 Clone repository, lalu masuk ke folder project:
 
 ```bash
-git clone <URL-REPOSITORY>
-cd faster-whisper
+git clone https://github.com/andysaktia/whisper-studio-local.git
+cd whisper-studio-local
 ```
 
 Buat virtual environment:
@@ -174,7 +176,7 @@ Untuk penggunaan interaktif dan batch melalui browser, gunakan `bash run.sh`.
 ## Struktur Project
 
 ```text
-faster-whisper/
+whisper-studio-local/
 ├── index.html          # Antarmuka Whisper Studio
 ├── transcribe_web.py   # Server lokal dan API transkripsi
 ├── run.sh              # Launcher Bash
