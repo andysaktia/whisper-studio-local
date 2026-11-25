@@ -166,6 +166,13 @@ class Handler(BaseHTTPRequestHandler):
             self.send_header("Content-Length", str(len(data)))
             self.end_headers()
             self.wfile.write(data)
+        elif path == "/favicon.ico":
+            data = (BASE_DIR / "favicon.ico").read_bytes()
+            self.send_response(200)
+            self.send_header("Content-Type", "image/x-icon")
+            self.send_header("Content-Length", str(len(data)))
+            self.end_headers()
+            self.wfile.write(data)
         elif "/download/" in path:
             bits = path.strip("/").split("/")
             job = JOBS.get(bits[2]) if len(bits) == 5 else None

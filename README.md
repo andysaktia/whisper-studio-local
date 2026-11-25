@@ -178,6 +178,7 @@ Untuk penggunaan interaktif dan batch melalui browser, gunakan `bash run.sh`.
 ```text
 whisper-studio-local/
 ├── index.html          # Antarmuka Whisper Studio
+├── favicon.ico         # Ikon tab browser sesuai logo aplikasi
 ├── transcribe_web.py   # Server lokal dan API transkripsi
 ├── run.sh              # Launcher Bash
 ├── transcribe.py       # Skrip CLI satu file
